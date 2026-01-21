@@ -1,6 +1,6 @@
 # Tarot Web UI
 
-Beautiful web interface for tarot readings powered by AI interpretations. Built with Next.js 14+, TypeScript, Tailwind CSS, and TanStack Query.
+Beautiful web interface for tarot readings powered by AI interpretations. Built with Next.js 16, TypeScript, Tailwind CSS 4, and TanStack Query 5.
 
 ## Features
 
@@ -54,11 +54,11 @@ npm start
 
 ## Tech Stack
 
-- **Framework**: Next.js 14+ with App Router
+- **Framework**: Next.js 16.1.4 with App Router
 - **Language**: TypeScript 5+
-- **Styling**: Tailwind CSS 3+
-- **UI Components**: Lucide React icons
-- **State Management**: TanStack Query (React Query)
+- **Styling**: Tailwind CSS 4.0
+- **UI Components**: Radix UI (Dialog, Label, Select) + Lucide React icons
+- **State Management**: TanStack Query 5.90.19 (React Query)
 - **HTTP Client**: Native fetch API
 
 ## Project Structure
