@@ -15,6 +15,21 @@ export default function ReadingPage() {
   const [followUpQuestion, setFollowUpQuestion] = useState('');
   const [showFollowUp, setShowFollowUp] = useState(false);
 
+  const getPersonalityInfo = (type?: string) => {
+    switch (type) {
+      case 'analytic':
+        return { name: 'The Analyst', icon: '📚' };
+      case 'therapeutic':
+        return { name: 'The Healer', icon: '🌱' };
+      case 'psychic':
+        return { name: 'The Mystic', icon: '🔮' };
+      case 'magical':
+        return { name: 'The Magician', icon: '✨' };
+      default:
+        return null;
+    }
+  };
+
   const { data: reading, isLoading: readingLoading } = useQuery({
     queryKey: ['reading', readingId],
     queryFn: () => apiClient.getReading(readingId),
@@ -71,14 +86,26 @@ export default function ReadingPage() {
           Start New Reading
         </Link>
 
-        {reading?.question && (
-          <div className="bg-purple-50 border-l-4 border-purple-600 p-6 rounded-r-lg">
-            <p className="text-sm text-purple-700 font-medium mb-1">
-              Your Question
-            </p>
-            <p className="text-lg text-gray-800 italic">"{reading.question}"</p>
-          </div>
-        )}
+        <div className="flex flex-col gap-4">
+          {reading?.question && (
+            <div className="bg-purple-50 border-l-4 border-purple-600 p-6 rounded-r-lg">
+              <p className="text-sm text-purple-700 font-medium mb-1">
+                Your Question
+              </p>
+              <p className="text-lg text-gray-800 italic">"{reading.question}"</p>
+            </div>
+          )}
+
+          {reading?.personalityType && (() => {
+            const personalityInfo = getPersonalityInfo(reading.personalityType);
+            return personalityInfo ? (
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-700 rounded-full text-sm font-medium self-start border border-purple-200">
+                <span className="text-base">{personalityInfo.icon}</span>
+                <span>{personalityInfo.name} Reading</span>
+              </div>
+            ) : null;
+          })()}
+        </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -122,14 +149,23 @@ export default function ReadingPage() {
 
         {interpretationLoading ? (
           <div className="bg-white rounded-2xl shadow-xl p-12">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <Loader2 className="w-12 h-12 animate-spin text-purple-600" />
-              <p className="text-gray-600">
-                Generating your interpretation...
-              </p>
-              <p className="text-sm text-gray-500">
-                This may take 30-60 seconds for larger spreads
-              </p>
+            <div className="flex flex-col items-center justify-center gap-6">
+              <div className="relative">
+                <Loader2 className="w-16 h-16 animate-spin text-purple-600" />
+                <div className="absolute inset-0 w-16 h-16 rounded-full bg-purple-600 opacity-20 animate-pulse" />
+              </div>
+              <div className="text-center space-y-2">
+                <p className="text-xl font-semibold text-gray-800">
+                  Consulting the Cards...
+                </p>
+                <p className="text-gray-600">
+                  {reading?.personalityType === 'analytic' && 'Analyzing symbolic meanings and correspondences'}
+                  {reading?.personalityType === 'therapeutic' && 'Discovering insights for your personal growth'}
+                  {reading?.personalityType === 'psychic' && 'Tuning into intuitive guidance'}
+                  {reading?.personalityType === 'magical' && 'Channeling manifestation energy'}
+                  {!reading?.personalityType && 'Weaving together your card meanings'}
+                </p>
+              </div>
             </div>
           </div>
         ) : interpretation ? (

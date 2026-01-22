@@ -1,6 +1,9 @@
+export type PersonalityType = 'analytic' | 'therapeutic' | 'psychic' | 'magical';
+
 export interface Reading {
   id: string;
   status: string;
+  personalityType?: PersonalityType;
   layoutId?: string;
   layoutName?: string;
   question?: string;
@@ -40,6 +43,7 @@ export interface Interpretation {
   id: string;
   readingId: string;
   layoutId: string;
+  personalityType?: string;
   question?: string;
   cardInterpretations: CardInterpretation[];
   overallTheme: string;
@@ -68,9 +72,11 @@ const LAYOUT_SERVICE_URL = process.env.NEXT_PUBLIC_LAYOUT_SERVICE_URL || 'http:/
 const INTERPRETATION_SERVICE_URL = process.env.NEXT_PUBLIC_INTERPRETATION_SERVICE_URL || 'http://localhost:3004';
 
 export class TarotApiClient {
-  async createReading(): Promise<Reading> {
+  async createReading(personalityType?: PersonalityType): Promise<Reading> {
     const response = await fetch(`${READING_SERVICE_URL}/readings`, {
-      method: 'POST'
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ personalityType })
     });
 
     if (!response.ok) {
