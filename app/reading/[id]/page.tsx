@@ -6,6 +6,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiClient, Card, Interpretation, ConversationMessage } from '@/lib/api-client';
 import { Loader2, MessageCircle, Home, ArrowUp, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ReadingPage() {
   const params = useParams();
@@ -83,24 +84,37 @@ export default function ReadingPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <span>🎴</span> Your Cards
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {reading?.cards?.map((card: Card) => (
               <div
                 key={card.id}
-                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="flex flex-col items-center space-y-3"
               >
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900">{card.name}</h3>
-                  {card.orientation === 'upright' ? (
-                    <ArrowUp className="w-5 h-5 text-green-600" />
-                  ) : (
-                    <ArrowDown className="w-5 h-5 text-yellow-600" />
-                  )}
+                <div className="relative w-full aspect-[2/3] max-w-[200px]">
+                  <Image
+                    src={`/cards/${card.id}.jpg`}
+                    alt={card.name}
+                    fill
+                    className={`object-contain rounded-lg shadow-lg ${
+                      card.orientation === 'reversed' ? 'rotate-180' : ''
+                    }`}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
-                <p className="text-sm text-purple-600 font-medium mb-1">
-                  {card.positionName}
-                </p>
-                <p className="text-xs text-gray-600">{card.positionDescription}</p>
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-2">
+                    <h3 className="font-semibold text-gray-900">{card.name}</h3>
+                    {card.orientation === 'upright' ? (
+                      <ArrowUp className="w-4 h-4 text-green-600" />
+                    ) : (
+                      <ArrowDown className="w-4 h-4 text-yellow-600" />
+                    )}
+                  </div>
+                  <p className="text-sm text-purple-600 font-medium">
+                    {card.positionName}
+                  </p>
+                  <p className="text-xs text-gray-600">{card.positionDescription}</p>
+                </div>
               </div>
             ))}
           </div>

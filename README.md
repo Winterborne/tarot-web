@@ -4,6 +4,7 @@ Beautiful web interface for tarot readings powered by AI interpretations. Built 
 
 ## Features
 
+- **Authentic Tarot Card Images**: Displays classic Rider-Waite-Smith deck images (1909 public domain)
 - **Interactive Reading Flow**: Choose layouts, provide optional questions, and view beautifully formatted interpretations
 - **Contextual Readings**: Ask questions to receive interpretations tailored to your situation
 - **Follow-up Conversations**: Engage in unlimited follow-up questions about your reading
@@ -61,6 +62,18 @@ npm start
 - **State Management**: TanStack Query 5.90.19 (React Query)
 - **HTTP Client**: Native fetch API
 
+## Tarot Card Images
+
+This project uses authentic Rider-Waite-Smith tarot card images from the 1909 Pamela Coleman Smith deck, which are in the public domain.
+
+- **Source**: Searge/tarot GitHub repository (CC-BY-SA-4.0 licensed scans)
+- **Deck**: Complete 78-card Rider-Waite-Smith deck
+- **Location**: `/public/cards/` directory
+- **Naming**: Cards are named by ID (e.g., `major-0.jpg`, `wands-ace.jpg`, `cups-2.jpg`)
+- **Display**: Cards automatically rotate 180° when drawn in reversed orientation
+
+The images were obtained from a combination of sacred-texts.com and the Searge/tarot GitHub repository.
+
 ## Project Structure
 
 ```
@@ -73,6 +86,11 @@ app/
 lib/
   api-client.ts         # Backend API client
   providers.tsx         # TanStack Query provider
+public/
+  cards/                # 78 tarot card images (Rider-Waite-Smith deck)
+scripts/
+  download-cards.ts     # Script to download cards from sacred-texts.com
+  copy-from-github.ts   # Script to copy cards from GitHub repo
 components/             # Reusable UI components (future)
 ```
 
